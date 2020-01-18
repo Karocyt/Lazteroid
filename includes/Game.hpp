@@ -14,8 +14,9 @@ protected:
     int _enemies_count;
     long _t;
     const long _t_start;
+    long _t_last;
     
-    void _initEnemies();
+    void _initEnemies(int nb);
 
 public:
 
