@@ -95,7 +95,7 @@ void Unit::updatePos(int t)                         // to change if t is not mil
 {
     int seconds = t / 1000;
 
-    std::cout << "Moving to " << getX() + _dir_x * getSpeed() * seconds << " " << getY() + _dir_y * getSpeed() * seconds << std::endl;
+    std::cerr << "Moving to " << getX() + _dir_x * getSpeed() * seconds << " " << getY() + _dir_y * getSpeed() * seconds << std::endl;
 
     setX(getX() + _dir_x * getSpeed() * seconds);
     setY(getY() + _dir_y * getSpeed() * seconds);                                   // check if moving in the right direction

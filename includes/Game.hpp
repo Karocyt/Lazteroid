@@ -21,6 +21,7 @@ public:
     int getEnemies(Enemy * *dst);
     
     void run(bool display_enabled = true); // will be his own namespace
+    void display(void);
 };
 
 #endif

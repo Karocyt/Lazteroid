@@ -1,4 +1,6 @@
 #include "Game.hpp"
+# include <ncurses.h>
+# include <unistd.h>
 
 Game::~Game() {
     delete [] _enemies;
@@ -25,15 +27,19 @@ Game::Game(int enemies_count) : _enemies_count(enemies_count)
 
 void Game::run(bool display_enabled)
 {
-    void update();
+    initscr();
+    noecho();
+    curs_set(0);
+
+    std::cerr << "SALUT" << std::endl;
 
     (void)display_enabled;
 
     Enemy *enemies;
     int enemies_count = getEnemies(&enemies);
     _player.shoot(enemies, enemies_count);
-    _enemies[0].moveTo(5, 5);
     _enemies[0].updatePos(3000);
+    endwin();
 }
 
 int Game::getEnemies(Enemy **dst) {
@@ -56,3 +62,18 @@ int Game::getEnemies(Enemy **dst) {
 
     return (end - start);
 }
+
+void Game::display(void) {
+
+    Enemy *enemies;
+    int enemies_count = getEnemies(&enemies);
+    std::cerr << "[P] X:" << _player.getX() << " Y:" << _player.getY() << std::endl;
+    mvaddch(_player.getX(), _player.getY(), 'P');
+    for (int i = 0; i < enemies_count; i++)
+    {
+        std::cerr << "[" << i << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
+        mvaddch(enemies[i].getX(), enemies[i].getY(), 'E');
+    }
+    refresh();
+}
+

@@ -3,10 +3,10 @@
 #                                                               /              #
 #    Makefile                                         .::    .:/ .      .::    #
 #                                                  +:+:+   +:    +:  +:+:+     #
-#    By: kevazoul <marvin@le-101.fr>                +:+   +:    +:    +:+      #
+#    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/08/14 11:09:21 by kevazoul     #+#   ##    ##    #+#        #
-#    Updated: 2018/09/05 12:43:38 by kevazoul    ###    #+. /#+    ###.fr      #
+#    Updated: 2020/01/18 17:50:12 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -49,7 +49,7 @@ NAME = Laz-steroïd
 all: $(NAME)
 
 $(NAME): $(OBJDIR) $(O_FILES) $(H_FILES) | signature
-	$(CC) $(CPPFLAGS) -o $(NAME) $(INCLUDES) $(O_FILES)
+	$(CC) $(CPPFLAGS) -lncurses -o $(NAME) $(INCLUDES) $(O_FILES)
 
 $(OBJDIR):
 	@mkdir $@
