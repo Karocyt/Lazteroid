@@ -1,8 +1,8 @@
 #include "Player.hpp"
 
-int Player::_x = 1;
+int Player::_x_init = 1;
 
-Player::Player() : Unit(Player::_x, 1) {
+Player::Player() : Unit(_x_init, 1), _score(0) {
 }
 
 Player::~Player() {
@@ -15,14 +15,8 @@ Player::Player(const Player & f)
 
 Player const & Player::operator=(Player const & e) {
     Unit::operator=(e);
-    setCooldown(e.getCooldown());
     setScore(e.getScore());
     return *this;
-}
-
-unsigned Player::getCooldown() const
-{
-    return _cooldown;
 }
 
 
@@ -37,8 +31,6 @@ void Player::setScore(unsigned s)
     _score = s;
 }
 
-
-void Player::setCooldown(unsigned c)
-{
-    _cooldown = c;
+void Player::setX(float x) {
+    (void)x; // Player x cannot change
 }

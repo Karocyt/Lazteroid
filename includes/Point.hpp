@@ -9,8 +9,8 @@ private:
     float _y;
 
 protected:
-    void setX(float const x);
-    void setY(float const y);
+    virtual void setX(float const x);
+    virtual void setY(float const y);
 
 
 public:
@@ -20,8 +20,8 @@ public:
     ~Point();
     Point(Point const & g);
     Point const & operator=(Point const & g);
-    int getX() const;
-    int getY() const;
+    float getX() const;
+    float getY() const;
     void moveTo(Point const & p);
 };
 

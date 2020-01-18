@@ -7,11 +7,12 @@ class Player: public Unit {
 protected:
     unsigned _cooldown;
     unsigned _score;
-    static int _x;
+    static int _x_init;
 
 protected:
-    void setCooldown(unsigned c);
     void setScore(unsigned s);
+    virtual void setX(float const x);
+    //virtual void setY(float const y);
 
 public:
 
@@ -19,7 +20,6 @@ public:
     ~Player();
     Player(Player const & g);
     Player const & operator=(Player const & g);
-    unsigned getCooldown() const;
     unsigned getScore() const;
 };
 

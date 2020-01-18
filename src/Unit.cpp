@@ -1,6 +1,17 @@
 #include "Unit.hpp"
 
-Unit::Unit(int x, int y) : Point(x, y), _display_char('o') {
+Unit::Unit(int x, int y, unsigned speed) :
+    Point(x, y),
+    _speed(speed),
+    _hp(150),
+    _display_char('o'),
+    _dir_x(0),
+    _dir_y(0),
+    _base_cooldown(1000),
+    _damage(75),
+    _cooldown(_base_cooldown)
+{
+
 }
 
 Unit::~Unit() {
@@ -13,9 +24,14 @@ Unit::Unit(const Unit & f)
 
 Unit const & Unit::operator=(Unit const & e) {
     Point::operator=(e);
+    setCooldown(e.getCooldown());
     setSpeed(e.getSpeed());
     setChar(e.getChar());
     setHp(e.getHp());
+    setDamage(e.getDamage());
+    setBaseCooldown(e.getBaseCooldown());
+    _dir_x = 0;
+    _dir_y = 0;
     return *this;
 }
 
@@ -57,6 +73,17 @@ void Unit::setChar(char c)
     _display_char = c;
 }
 
+void Unit::setDamage(int const y)
+{
+    _damage = y;
+}
+
+
+int Unit::getDamage() const
+{
+    return _damage;
+}
+
 
 void Unit::takeDamage(int d)
 {
@@ -64,15 +91,25 @@ void Unit::takeDamage(int d)
 }
 
 
-void Unit::updatePos(int t)
+void Unit::updatePos(int t)                         // to change if t is not milliseconds
 {
-    (void)t;                                        // update pos using elapsed time (t) and speed
+    int seconds = t / 1000;
+
+    std::cout << "Moving to " << getX() + _dir_x * getSpeed() * seconds << " " << getY() + _dir_y * getSpeed() * seconds << std::endl;
+
+    setX(getX() + _dir_x * getSpeed() * seconds);
+    setY(getY() + _dir_y * getSpeed() * seconds);                                   // check if moving in the right direction
 }
 
 
 void Unit::shoot(Unit const & target)
 {
-    (void)target;                                   // shoot
+    if (getCooldown() < 0)
+    {
+        (void)target;                               //// Shoot Logic
+        setCooldown(getBaseCooldown());
+
+    }
 }
 
 
@@ -81,4 +118,49 @@ bool Unit::getState()
     if (getHp() > 0)
         return true;
     return false;                                    
+}
+
+void Unit::moveTo(Point const & target) {
+    int x = target.getX();
+    int y = target.getY();
+
+    moveTo(x, y);
+}
+
+void Unit::moveTo(int x_target, int y_target) {
+    int x = x_target - getX();
+    int y = y_target - getY();
+
+    if (x > 0)
+        _dir_x = 1;
+    else if (x < 0)
+        _dir_x = -1;
+    else
+        _dir_x = 0;
+    if (y > 0)
+        _dir_y = 1;
+    else if (y < 0)
+        _dir_y = -1;
+    else
+        _dir_y = 0;
+}
+
+void Unit::setCooldown(int c)
+{
+    _cooldown = c;
+}
+
+unsigned Unit::getCooldown() const
+{
+    return _cooldown;
+}
+
+void Unit::setBaseCooldown(int c)
+{
+    _base_cooldown = c;
+}
+
+unsigned Unit::getBaseCooldown() const
+{
+    return _base_cooldown;
 }

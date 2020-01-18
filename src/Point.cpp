@@ -18,13 +18,13 @@ Point const & Point::operator=(Point const & e) {
 }
 
 
-int Point::getX() const
+float Point::getX() const
 {
     return _x;
 }
 
 
-int Point::getY() const
+float Point::getY() const
 {
     return _y;
 }
@@ -39,10 +39,4 @@ void Point::setX(float const x)
 void Point::setY(float const y)
 {
     _y = y;
-}
-
-
-void Point::moveTo(Point const & p)
-{
-    (void)p;                                    // move, proto can change
-}
+} // floor and round to borders to hit walls, can eventually bounce ?
