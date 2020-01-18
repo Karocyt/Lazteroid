@@ -106,7 +106,7 @@ void Unit::updatePos(int t)                         // to change if t is not mil
 void Unit::shoot(Unit *enemies, int count)
 {
     (void)count;
-    if (getCooldown() < 0)
+    if (getCooldown() <= 0)
     {
         (void)enemies;                               //// Shoot Logic
         setCooldown(getBaseCooldown());
