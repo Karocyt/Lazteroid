@@ -26,7 +26,6 @@ Game::Game(int enemies_count) : _enemies_count(enemies_count)
 void Game::run(bool display_enabled)
 {
     void update();
-    void display();
 
     (void)display_enabled;
 
