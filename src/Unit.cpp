@@ -102,11 +102,12 @@ void Unit::updatePos(int t)                         // to change if t is not mil
 }
 
 
-void Unit::shoot(Unit const & target)
+void Unit::shoot(Unit *enemies, int count)
 {
+    (void)count;
     if (getCooldown() < 0)
     {
-        (void)target;                               //// Shoot Logic
+        (void)enemies;                               //// Shoot Logic
         setCooldown(getBaseCooldown());
 
     }
@@ -150,7 +151,7 @@ void Unit::setCooldown(int c)
     _cooldown = c;
 }
 
-unsigned Unit::getCooldown() const
+int Unit::getCooldown() const
 {
     return _cooldown;
 }

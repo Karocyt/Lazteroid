@@ -23,13 +23,13 @@ Game::Game(unsigned enemies_count) : _enemies_count(enemies_count)
     _enemies = new Enemy[enemies_count]; 
 }
 
-
 void Game::run(bool display_enabled)
 {
     void update();
     void display();
 
     (void)display_enabled;
+    _player.shoot(_enemies, _enemies_count);
     _enemies[0].moveTo(5, 5);
     _enemies[0].updatePos(3000);
 }

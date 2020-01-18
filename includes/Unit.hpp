@@ -32,14 +32,14 @@ public:
     float getSpeed() const;
     int getHp() const;
     int getDamage() const;
-    unsigned getCooldown() const;
+    int getCooldown() const;
     unsigned getBaseCooldown() const;
     char getChar() const;
     void moveTo(Point const & p);
     void moveTo(int x, int y);
     void takeDamage(int d);
     void updatePos(int time);
-    void shoot(Unit const & target);
+    void shoot(Unit *enemies, int count);
 };
 
 #endif
