@@ -39,7 +39,6 @@ public:
     void moveTo(int x, int y);
     void takeDamage(int d);
     void updatePos(double time);
-    void shoot(Unit *enemies, int count);
     int getDirX() const;
     void setDirX(int dir);
     int getDirY() const;

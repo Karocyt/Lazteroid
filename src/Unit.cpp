@@ -101,18 +101,6 @@ void Unit::updatePos(double seconds)                         // to change if t i
 }
 
 
-void Unit::shoot(Unit *enemies, int count)
-{
-    (void)count;
-    if (getCooldown() <= 0)
-    {
-        (void)enemies;                               //// Shoot Logic
-        setCooldown(getBaseCooldown());
-
-    }
-}
-
-
 bool Unit::getState()
 {
     if (getHp() > 0)

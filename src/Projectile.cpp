@@ -1,6 +1,6 @@
 #include "Projectile.hpp"
 
-Projectile::Projectile() : Unit() {
+Projectile::Projectile(int len) : Unit(), _len(len) {
 }
 
 Projectile::~Projectile() {

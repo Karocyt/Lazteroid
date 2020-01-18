@@ -12,7 +12,7 @@ protected:
 
 public:
 
-    Projectile();
+    Projectile(int len);
     ~Projectile();
     Projectile(Projectile const & g);
     Projectile const & operator=(Projectile const & g);

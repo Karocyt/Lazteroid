@@ -23,6 +23,7 @@ public:
     Player(Player const & g);
     Player const & operator=(Player const & g);
     unsigned getScore() const;
+    void shoot(Unit *enemies, int count);
     Projectile * getLaser() const;
 };
 
