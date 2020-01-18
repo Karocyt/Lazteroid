@@ -33,3 +33,8 @@ void Game::run(bool display_enabled)
     _enemies[0].moveTo(5, 5);
     _enemies[0].updatePos(3000);
 }
+
+int Game::getEnemies(Enemy **dst) {
+    *dst = NULL;
+    return 0;
+}

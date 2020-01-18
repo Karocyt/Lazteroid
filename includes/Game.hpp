@@ -17,6 +17,8 @@ public:
     ~Game();
     Game(Game const & g);
     Game const & operator=(Game const & g);
+
+    int getEnemies(Enemy * *dst);
     
     void run(bool display_enabled = true); // will be his own namespace
 };
