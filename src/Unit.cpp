@@ -165,3 +165,23 @@ unsigned Unit::getBaseCooldown() const
 {
     return _base_cooldown;
 }
+
+void Unit::setDirX(int x)
+{
+    _dir_x = x;
+}
+
+int Unit::getDirX() const
+{
+    return _dir_x;
+}
+
+void Unit::setDirY(int x)
+{
+    _dir_y = x;
+}
+
+int Unit::getDirY() const
+{
+    return _dir_y;
+}

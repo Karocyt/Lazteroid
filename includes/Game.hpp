@@ -2,14 +2,20 @@
 # define GAME_H
 # include "Player.hpp"
 # include "Enemy.hpp"
+# include <time.h> // sleep
 
 class Game {
 
 private:
+
 protected:
     Player _player;
     Enemy *_enemies;
     int _enemies_count;
+    long _t;
+    const long _t_start;
+    
+    void _initEnemies();
 
 public:
 
