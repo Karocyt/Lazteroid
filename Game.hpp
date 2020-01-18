@@ -6,6 +6,8 @@
 class Game {
 
 private:
+    Game();
+protected:
     Player _player;
     Enemy *_enemies;
     unsigned _enemies_count;
