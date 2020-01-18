@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/08/14 11:09:21 by kevazoul     #+#   ##    ##    #+#        #
-#    Updated: 2020/01/18 17:50:12 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2020/01/18 23:53:56 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -16,7 +16,7 @@
 TIME = /usr/bin/time -l # time -v on Ubuntu, time -l on OSX
 
 CC = clang++
-CPPFLAGS = -std=c++98 -Wall -Wextra -Werror -g
+CPPFLAGS = -std=c++98 -Wall -Wextra -Werror -g -fsanitize=address
 
 SRCDIR = src/
 OBJDIR = obj/
@@ -75,13 +75,13 @@ re: fclean all
 
 signature:
 	@echo "   ,ad8888ba,                           "
-	@echo " d8\"\'    \`\"8b      aa          aa      "
-	@echo "d8\'                88          88      "
+	@echo " d8\"'    \`\"8b      aa          aa      "
+	@echo "d8'                88          88      "
 	@echo "88             aaaa88aaaa  aaaa88aaaa  "
 	@echo "88             \"\"\"\"88\"\"\"\"  \"\"\"\"88\"\"\"\"  "
 	@echo "Y8,                88          88      "
 	@echo " Y8a.    .a8P      \"\"          \"\"      "
-	@echo "  \`\"Y8888Y\"\'                           "
+	@echo "  \`\"Y8888Y\"'                           "
 	@echo "                 ©2020 moya & kevazoul"
 	@echo ""
 

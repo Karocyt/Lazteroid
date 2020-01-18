@@ -1,5 +1,4 @@
 #include "Game.hpp"
-# include <ncurses.h>
 # include <unistd.h>
 # include <ctime>
 
@@ -55,7 +54,7 @@ void Game::run(bool display_enabled)
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
-
+    
     (void)display_enabled;
 
     Enemy *enemies;
@@ -122,8 +121,12 @@ void Game::input(void) {
 }
 
 void Game::display(void) {
-    erase();
+    Projectile *laser = NULL;
     Enemy *enemies;
+
+    int len = 0;
+
+    erase();
     int enemies_count = getEnemies(&enemies);
     std::cerr << "[P] X:" << _player.getX() << " Y:" << _player.getY() << std::endl;
     mvaddch(_player.getY(), _player.getX(), 'P');
@@ -131,6 +134,15 @@ void Game::display(void) {
     {
         std::cerr << "[" << i << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
         mvaddch(enemies[i].getY(), enemies[i].getX(), ' ' | COLOR_PAIR(1));
+    }
+    if ((laser = _player.getLaser()))
+    {
+        std::cerr << "NIQUE TOI BIEN---------------------" << std::endl;
+        len = laser->getLen();
+        for (int j = 0; j < len - 1; j++) {
+            mvaddch(_player.getY(), _player.getX() + j + 1, '-' | COLOR_PAIR(1));
+
+        }
     }
 }
 

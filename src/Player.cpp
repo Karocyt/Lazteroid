@@ -2,7 +2,7 @@
 
 int Player::_x_init = 2;
 
-Player::Player() : Unit(_x_init, Y_MAX / 2), _score(0) {
+Player::Player() : Unit(_x_init, Y_MAX / 2), _cooldown(0), _score(0) {
 }
 
 Player::~Player() {
@@ -48,8 +48,8 @@ void Player::shoot(Unit *enemies, int count)
 {
     int best_x = X_MAX;
     Unit * target = NULL;
-    if (getCooldown() <= 0)
-    {
+    //if (getCooldown() <= 0)
+    //{
         setCooldown(getBaseCooldown());
         for (int i = 0; i < count; i++)
         {
@@ -61,5 +61,5 @@ void Player::shoot(Unit *enemies, int count)
             _laser = new Projectile(X_MAX - getX());
         else
             _laser = new Projectile(target->getX() - getX());
-    }
+    //}
 }

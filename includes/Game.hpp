@@ -3,6 +3,7 @@
 # include "Player.hpp"
 # include "Enemy.hpp"
 # include <time.h> // sleep
+# include <ncurses.h>
 
 class Game {
 
