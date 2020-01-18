@@ -1,6 +1,7 @@
 #include "Game.hpp"
 # include <ncurses.h>
 # include <unistd.h>
+# include <ctime>
 
 Game::~Game() {
     delete [] _enemies;
@@ -48,16 +49,6 @@ void Game::_initEnemies(int nb) {
     }
 }
 
-void msleep(long msec) {
-    struct timespec ts;
-
-    if (msec < 0)
-        return;
-    ts.tv_sec = msec / 1000;
-    ts.tv_nsec = (msec % 1000) * 1000000;
-    nanosleep(&ts, &ts);
-}
-
 void Game::run(bool display_enabled)
 {
     initscr();
@@ -75,7 +66,7 @@ void Game::run(bool display_enabled)
     _initEnemies(2);
     while ((enemies_count = getEnemies(&enemies)))
     {
-        long t = std::clock() - _t_last;
+        double t = (std::clock() - _t_last) / (double)CLOCKS_PER_SEC;
         _t_last = std::clock();
         std::cerr << t << std::endl;
         _player.shoot(enemies, enemies_count);
@@ -85,11 +76,9 @@ void Game::run(bool display_enabled)
         }
         _player.updatePos(t);
 
+        input();
         if (display_enabled)
             display();
-        if (1)
-            input();
-        msleep(300);
     }
     endwin();
 }
