@@ -17,7 +17,7 @@ Game const & Game::operator=(Game const & e) {
     return *this;
 }
 
-Game::Game(unsigned enemies_count) : _enemies_count(enemies_count)
+Game::Game(int enemies_count) : _enemies_count(enemies_count)
 {
     std::cout << "Game started with " << _enemies_count << " enemies" << std::endl;
     _enemies = new Enemy[enemies_count]; 
@@ -29,12 +29,31 @@ void Game::run(bool display_enabled)
     void display();
 
     (void)display_enabled;
-    _player.shoot(_enemies, _enemies_count);
+
+    Enemy *enemies;
+    int enemies_count = getEnemies(&enemies);
+    _player.shoot(enemies, enemies_count);
     _enemies[0].moveTo(5, 5);
     _enemies[0].updatePos(3000);
 }
 
 int Game::getEnemies(Enemy **dst) {
-    *dst = NULL;
-    return 0;
+    int start = 0;
+
+    if (!_enemies)
+        return 0;
+    for (;start < _enemies_count && !_enemies[start].getState();)
+        start++;
+
+    if (!_enemies[start].getState())
+        return 0;
+
+    *dst = &_enemies[start];
+
+    int end = start;
+    for (; end < _enemies_count && _enemies[end].getX() != -1; end++)
+    {
+    }
+
+    return (end - start);
 }

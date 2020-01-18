@@ -34,3 +34,12 @@ void Player::setScore(unsigned s)
 void Player::setX(float x) {
     (void)x; // Player x cannot change
 }
+
+Projectile * Player::getLaser() const {
+	return _laser;
+}
+
+
+void Player::setLaser(Projectile * laser) {
+	_laser = laser;
+}

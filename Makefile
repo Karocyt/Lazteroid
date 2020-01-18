@@ -23,6 +23,7 @@ OBJDIR = obj/
 H_FILES_NAMES = Point.hpp \
 				Unit.hpp \
 				Enemy.hpp \
+				Projectile.hpp \
 				Player.hpp \
 				Game.hpp
 INCLUDES_DIR = includes/
@@ -31,6 +32,7 @@ H_FILES = $(addprefix $(INCLUDES_DIR), $(H_FILES_NAMES))
 SRC_NAME =	Point.cpp \
 			Unit.cpp \
 			Enemy.cpp \
+			Projectile.cpp \
 			Player.cpp \
 			Game.cpp \
 			main.cpp
