@@ -40,6 +40,10 @@ public:
     void takeDamage(int d);
     void updatePos(int time);
     void shoot(Unit *enemies, int count);
+    int getDirX() const;
+    void setDirX(int dir);
+    int getDirY() const;
+    void setDirY(int dir);
 };
 
 #endif
