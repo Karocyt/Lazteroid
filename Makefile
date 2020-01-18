@@ -20,16 +20,22 @@ CPPFLAGS = -std=c++98 -Wall -Wextra -Werror
 
 SRCDIR = ./
 OBJDIR = OBJ/
-H_FILES = phonebook.class.hpp contact.class.hpp
-INCLUDES = -Iphonebook.class.hpp -Icontact.class.hpp
-SRC_NAME =	contact.class.cpp \
-			phonebook.class.cpp \
+H_FILES = 	Unit.hpp \
+			Enemy.hpp \
+			Player.hpp \
+			Game.hpp
+INCLUDES_DIR = .
+INCLUDES = $(addprefix -I, $(INCLUDES_DIRS))
+SRC_NAME =	Unit.cpp \
+			Enemy.cpp \
+			Player.cpp \
+			Game.cpp \
 			main.cpp
 
 C_FILES = $(addprefix $(SRCDIR), $(SRC_NAME))
 O_FILES = $(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(C_FILES)) 
 #H_FILE = includes/ft_ssl.h
-NAME = phonebook
+NAME = Laz-steroïd
 
 # **************************************************************************** #
 #                                  RULES                                       #
@@ -70,6 +76,6 @@ signature:
 	@echo "Y8,                88          88      "
 	@echo " Y8a.    .a8P      \"\"          \"\"      "
 	@echo "  \`\"Y8888Y\"\'                           "
-	@echo "                    by kevazoul"
+	@echo "                 ©2020 moya & kevazoul"
 	@echo ""
 
