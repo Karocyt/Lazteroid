@@ -17,20 +17,32 @@ Game const & Game::operator=(Game const & e) {
     _enemies = e._enemies;
     _enemies_count = e._enemies_count;
     _t = e._t;
+    _t_last = e._t_last;
     return *this;
 }
 
-Game::Game(int enemies_count) : _enemies_count(enemies_count), _t(0), _t_start(std::time(nullptr)*1000)
+Game::Game(int enemies_count) :
+    _enemies_count(enemies_count),
+    _t(0),
+    _t_start(std::clock()),
+    _t_last(0)
 {
-    std::cout << "Game started with " << _enemies_count << " enemies" << std::endl;
+    std::cerr << "Game started with " << _enemies_count << " enemies" << std::endl;
     _enemies = new Enemy[enemies_count]; 
 }
 
-void Game::_initEnemies() {
-    for (int i = 0; i < _enemies_count && i < 2; i++)
+void Game::_initEnemies(int nb) {
+    int i = 0;
+    for (;i < _enemies_count && !_enemies[i].getState();)
+        i++;
+    if (i == _enemies_count)
+        return;
+
+    for (int count = 0; i < _enemies_count && count < nb; count++)
     {
+        std::cout << "h";
         _enemies[i].setX(20);
-        _enemies[i].setY(1 + i);
+        _enemies[i].setY(1 + count);
         _enemies[i].setDirX(-1);
         _enemies[i].setDirY(0);
     }
@@ -60,22 +72,24 @@ void Game::run(bool display_enabled)
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_YELLOW);
 
-    _initEnemies();
-    while (1/*(enemies_count = getEnemies(&enemies))*/)
+    _initEnemies(2);
+    while ((enemies_count = getEnemies(&enemies)))
     {
-        enemies_count = getEnemies(&enemies);
-        int t = std::time(nullptr)*1000 - _t_start;
-        std::cerr << t <<std::endl;
-        //if (display_enabled)
-        //    update();
+        long t = std::clock() - _t_last;
+        _t_last = std::clock();
+        std::cerr << t << std::endl;
         _player.shoot(enemies, enemies_count);
-        //_enemies[0].moveTo(5, 5);
-        _enemies[0].updatePos(t);
-        _enemies[1].updatePos(t);
-        display();
+        for (int i = 0; i < enemies_count; i++)
+        {
+            _enemies[i].updatePos(t);
+        }
+        _player.updatePos(t);
+
+        if (display_enabled)
+            display();
         if (1)
             input();
-        msleep(10);
+        msleep(300);
     }
     endwin();
 }
