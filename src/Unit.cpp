@@ -91,10 +91,8 @@ void Unit::takeDamage(int d)
 }
 
 
-void Unit::updatePos(int t)                         // to change if t is not milliseconds
+void Unit::updatePos(double seconds)                         // to change if t is not milliseconds
 {
-    double seconds = t / 1000.0;
-
     std::cerr << "Moving to " << (int)(getX() + _dir_x * getSpeed() * seconds)
     << " " << (int)(getY() + _dir_y * getSpeed() * seconds) << std::endl;
 

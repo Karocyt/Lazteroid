@@ -1,6 +1,6 @@
 #include "Enemy.hpp"
 
-Enemy::Enemy() : Unit() {
+Enemy::Enemy() : Unit(-1, -1, 5) {
 }
 
 Enemy::~Enemy() {
