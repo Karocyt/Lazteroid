@@ -9,14 +9,16 @@ private:
 protected:
     Player _player;
     Enemy *_enemies;
-    unsigned _enemies_count;
+    int _enemies_count;
 
 public:
 
-    Game(unsigned enemies_count = 42);
+    Game(int enemies_count = 1000);
     ~Game();
     Game(Game const & g);
     Game const & operator=(Game const & g);
+
+    int getEnemies(Enemy * *dst);
     
     void run(bool display_enabled = true); // will be his own namespace
 };
