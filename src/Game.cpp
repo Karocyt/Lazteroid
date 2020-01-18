@@ -29,7 +29,7 @@ Game::Game(int enemies_count) :
     _t_last(0)
 {
     std::cerr << "Game started with " << _enemies_count << " enemies" << std::endl;
-    _enemies = new Enemy[enemies_count]; 
+    _enemies = new Enemy[enemies_count];
 }
 
 void Game::_initEnemies(int nb) {
@@ -42,8 +42,8 @@ void Game::_initEnemies(int nb) {
     for (int count = 0; i < _enemies_count && count < nb; count++)
     {
         std::cout << "h";
-        _enemies[i].setX(20);
-        _enemies[i].setY(1 + count);
+        _enemies[i].setX(X_MAX);
+        _enemies[i].setY(std::rand() % Y_MAX);
         _enemies[i].setDirX(-1);
         _enemies[i].setDirY(0);
     }

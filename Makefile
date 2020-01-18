@@ -20,7 +20,8 @@ CPPFLAGS = -std=c++98 -Wall -Wextra -Werror -g
 
 SRCDIR = src/
 OBJDIR = obj/
-H_FILES_NAMES = Point.hpp \
+H_FILES_NAMES = Constants.hpp \
+				Point.hpp \
 				Unit.hpp \
 				Enemy.hpp \
 				Projectile.hpp \
