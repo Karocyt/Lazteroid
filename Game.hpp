@@ -1,12 +1,12 @@
 #ifndef GAME_H
 # define GAME_H
 # include "Player.hpp"
+# include "Enemy.hpp"
 # include <iostream>
 
 class Game {
 
 private:
-    Game();
 protected:
     Player _player;
     Enemy *_enemies;
@@ -14,11 +14,12 @@ protected:
 
 public:
 
-    Game(unsigned enemies_count);
+    Game(unsigned enemies_count = 42);
     ~Game();
     Game(Game const & g);
     Game const & operator=(Game const & g);
-    void run(unsigned enemies_count);
+    
+    void run(bool display_enabled = true); // will be his own namespace
 };
 
 #endif
