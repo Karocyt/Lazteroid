@@ -15,18 +15,21 @@
 
 TIME = /usr/bin/time -l # time -v on Ubuntu, time -l on OSX
 
-CC = clang++ -g
-CPPFLAGS = -std=c++98 -Wall -Wextra -Werror
+CC = clang++
+CPPFLAGS = -std=c++98 -Wall -Wextra -Werror -g
 
-SRCDIR = ./
-OBJDIR = OBJ/
-H_FILES = 	Unit.hpp \
-			Enemy.hpp \
-			Player.hpp \
-			Game.hpp
-INCLUDES_DIR = .
-INCLUDES = $(addprefix -I, $(INCLUDES_DIRS))
-SRC_NAME =	Unit.cpp \
+SRCDIR = src/
+OBJDIR = obj/
+H_FILES_NAMES = Point.hpp \
+				Unit.hpp \
+				Enemy.hpp \
+				Player.hpp \
+				Game.hpp
+INCLUDES_DIR = includes/
+INCLUDES = $(addprefix -I, $(INCLUDES_DIR))
+H_FILES = $(addprefix $(INCLUDES_DIR), $(H_FILES_NAMES))
+SRC_NAME =	Point.cpp \
+			Unit.cpp \
 			Enemy.cpp \
 			Player.cpp \
 			Game.cpp \
@@ -44,14 +47,14 @@ NAME = Laz-steroïd
 all: $(NAME)
 
 $(NAME): $(OBJDIR) $(O_FILES) $(H_FILES) | signature
-	$(CC) $(CPPFLAGS) -o $(NAME) $(O_FILES)
+	$(CC) $(CPPFLAGS) -o $(NAME) $(INCLUDES) $(O_FILES)
 
 $(OBJDIR):
 	@mkdir $@
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp $(H_FILES) | $(OBJDIR)
 	@printf %b "0️⃣  $(NAME): Compiling $@ from $<..."
-	$(CC) $(CPPFLAGS) -c $(INCLUDES) -o $@ $<
+	$(CC) $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
 	@printf "\r" && printf "                                                                                             \r"
 
 
