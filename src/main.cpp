@@ -3,6 +3,6 @@
 int main(void) {
     Game a;
 
-    std::srand(std::time(NULL));
+    std::srand(clock());
     a.run();
 }

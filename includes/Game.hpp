@@ -2,7 +2,9 @@
 # define GAME_H
 # include "Player.hpp"
 # include "Enemy.hpp"
-# include <time.h> // sleep
+# include <ncurses.h>
+# include <unistd.h>
+# include <cstdlib> // rand
 
 class Game {
 

@@ -43,6 +43,8 @@ public:
     void setDirX(int dir);
     int getDirY() const;
     void setDirY(int dir);
+    void setY(const float dir);
+    virtual void resetLaser();
 };
 
 #endif

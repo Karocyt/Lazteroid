@@ -168,7 +168,17 @@ void Unit::setDirY(int x)
     _dir_y = x;
 }
 
+
+void Unit::setY(const float x)
+{
+    Point::setY(max(min(x, Y_MAX), 1));
+}
+
 int Unit::getDirY() const
 {
     return _dir_y;
+}
+
+void Unit::resetLaser() {
+
 }

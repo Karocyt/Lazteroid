@@ -1,7 +1,4 @@
 #include "Game.hpp"
-# include <ncurses.h>
-# include <unistd.h>
-# include <ctime>
 
 Game::~Game() {
     delete [] _enemies;
@@ -25,7 +22,7 @@ Game const & Game::operator=(Game const & e) {
 Game::Game(int enemies_count) :
     _enemies_count(enemies_count),
     _t(0),
-    _t_start(std::clock()),
+    _t_start(clock()),
     _t_last(0)
 {
     std::cerr << "Game started with " << _enemies_count << " enemies" << std::endl;
@@ -66,15 +63,16 @@ void Game::run(bool display_enabled)
     _initEnemies(2);
     while ((enemies_count = getEnemies(&enemies)))
     {
-        double t = (std::clock() - _t_last) / (double)CLOCKS_PER_SEC;
-        _t_last = std::clock();
+        double t = (clock() - _t_last) / (double)CLOCKS_PER_SEC;
+        _t_last = clock();
         std::cerr << t << std::endl;
-        _player.shoot(enemies, enemies_count);
+        if (!_player.getLaser())
+            _player.shoot(enemies, enemies_count);
         for (int i = 0; i < enemies_count; i++)
         {
             _enemies[i].updatePos(t);
         }
-        _player.updatePos(t);
+        _player.update(t);
 
         input();
         if (display_enabled)
@@ -132,5 +130,9 @@ void Game::display(void) {
         std::cerr << "[" << i << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
         mvaddch(enemies[i].getY(), enemies[i].getX(), ' ' | COLOR_PAIR(1));
     }
+
+    Projectile * laser;
+    if ((laser = _player.getLaser()))
+        mvaddch(laser->getY(), laser->getX(), '-');
 }
 

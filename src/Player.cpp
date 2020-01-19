@@ -1,8 +1,8 @@
 #include "Player.hpp"
 
-int Player::_x_init = 2;
+int Player::_x_init = PLAYER_OFFSET;
 
-Player::Player() : Unit(_x_init, Y_MAX / 2), _score(0) {
+Player::Player() : Unit(_x_init, Y_MAX / 2), _score(0), _laser(NULL) {
 }
 
 Player::~Player() {
@@ -35,7 +35,7 @@ void Player::setX(float x) {
     (void)x; // Player x cannot change
 }
 
-Projectile * Player::getLaser() const {
+Projectile * Player::getLaser() {
 	return _laser;
 }
 
@@ -48,18 +48,39 @@ void Player::shoot(Unit *enemies, int count)
 {
     int best_x = X_MAX;
     Unit * target = NULL;
-    if (getCooldown() <= 0)
-    {
+    //if (getCooldown() <= 0)
+    //{
         setCooldown(getBaseCooldown());
         for (int i = 0; i < count; i++)
         {
             if (enemies[i].getState() && enemies[i].getY() == getY() && enemies[i].getX() < best_x && enemies[i].getX() > getX())
+            {
                 best_x = enemies[i].getX();
                 target = &enemies[i];
+            }
         }
         if (!target)
-            _laser = new Projectile(X_MAX - getX());
+            _laser = new Projectile(getX(), getY(), X_MAX - getX(), NULL, *this);
         else
-            _laser = new Projectile(target->getX() - getX());
-    }
+            _laser = new Projectile(getX(), getY(), target->getX() - getX(), target, *this);
+    //}
+}
+
+void Player::resetLaser() {
+    _laser = NULL;
+}
+
+int Player::getCooldown() {
+    return max(_cooldown, 0);
+}
+
+void Player::setCooldown(int c) {
+    _cooldown = c;
+}
+
+
+void Player::update(double t) {
+    updatePos(t);
+    if (getLaser())
+        getLaser()->update(t);
 }
