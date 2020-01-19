@@ -38,12 +38,15 @@ void Game::_initEnemies(int nb) {
 
     for (int count = 0; i < _enemies_count && count < nb; i++)
     {
-        _enemies[i].setX(X_MAX);
-        _enemies[i].setY((i * 13 + std::rand())  % Y_MAX);
-        _enemies[i].setDirX(-1);
-        _enemies[i].setDirY(0);
-        std::cerr << "Enemy " << i + 1 << std::endl;
-        count++;
+        if (_enemies[i].getHp())
+        {
+            _enemies[i].setX(X_MAX);
+            _enemies[i].setY((i * 13 + std::rand())  % Y_MAX);
+            _enemies[i].setDirX(-1);
+            _enemies[i].setDirY(0);
+            std::cerr << "Enemy " << i + 1 << std::endl;
+            count++;
+        }
     }
 }
 
@@ -64,6 +67,7 @@ void Game::run(bool display_enabled)
 
     Enemy *enemies;
     int enemies_count;
+    int alive = 0;
 
     while ((enemies_count = getEnemies(&enemies)) && _player.getState())
     {
@@ -72,17 +76,20 @@ void Game::run(bool display_enabled)
         std::cerr << t << std::endl;
         if (!_player.getLaser())
             _player.shoot(enemies, enemies_count);
+        alive = 0;
         for (int i = 0; i < enemies_count; i++)
         {
             std::cerr << "Updating enemy " << i + 1 << ": ";
             _player.takeDamage(enemies[i].update(t));
+            if (enemies[i].getState())
+                alive++;
         }
         _player.update(t);
 
         input();
         if (display_enabled)
             display(enemies, enemies_count);
-        if (enemies_count < ENEMY_COUNT)
+        if (alive < ENEMY_COUNT)
             _initEnemies(1);
     }
     endwin();

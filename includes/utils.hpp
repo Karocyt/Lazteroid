@@ -10,7 +10,7 @@
 # define PLAYER_LIFE 150
 # define ENEMY_LIFE 150
 # define DAMAGE 60
-# define ENEMY_CROSS_DAMAGE 3 // not working
+# define ENEMY_CROSS_DAMAGE 30 // not working
 # define ENEMY_SPEED 10
 # define ENEMY_COUNT 5
 
