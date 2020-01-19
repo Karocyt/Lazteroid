@@ -13,30 +13,30 @@ Game::Game(const Game & f) : _t_start(f._t_start)
 Game const & Game::operator=(Game const & e) {
     _player = e._player;
     _enemies = e._enemies;
-    _enemies_count = e._enemies_count;
+    _global_count = e._global_count;
     _t = e._t;
     _t_last = e._t_last;
     return *this;
 }
 
 Game::Game(int enemies_count) :
-    _enemies_count(enemies_count),
+    _global_count(enemies_count),
     _t(0),
     _t_start(clock()),
     _t_last(0)
 {
-    std::cerr << "Game started with " << _enemies_count << " enemies" << std::endl;
+    std::cerr << "Game started with " << _global_count << " enemies" << std::endl;
     _enemies = new Enemy[enemies_count];
 }
 
 void Game::_initEnemies(int nb) {
     int i = 0;
-    for (;i < _enemies_count && (!_enemies[i].getHp() || _enemies[i].getY() != -1);)
+    for (;i < _global_count && (!_enemies[i].getHp() || _enemies[i].getY() != -1);)
         i++;
-    if (i == _enemies_count)
+    if (i == _global_count)
         return;
 
-    for (int count = 0; i < _enemies_count && count < nb; i++)
+    for (int count = 0; i < _global_count && count < nb; i++)
     {
         if (_enemies[i].getHp())
         {
@@ -62,7 +62,7 @@ void Game::init() {
     init_pair(1, COLOR_WHITE, COLOR_YELLOW);
     init_pair(2, COLOR_WHITE, COLOR_RED);
     init_pair(3, COLOR_RED, COLOR_BLACK);
-    _initEnemies(ENEMY_COUNT);
+    _initEnemies(ONSCREEN_COUNT);
 }
 
 void Game::run(bool display_enabled)
@@ -92,7 +92,7 @@ void Game::run(bool display_enabled)
         input(enemies, enemies_count);
         if (display_enabled)
             display(enemies, enemies_count);
-        if (alive < ENEMY_COUNT)
+        if (alive < ONSCREEN_COUNT)
             _initEnemies(1);
     }
     endwin();
@@ -103,7 +103,7 @@ int Game::getEnemies(Enemy **dst) {
 
     if (!_enemies)
         return 0;
-    for (;start < _enemies_count && !_enemies[start].getState();)
+    for (;start < _global_count && !_enemies[start].getState();)
         start++;
 
     if (!_enemies[start].getState())
@@ -112,7 +112,7 @@ int Game::getEnemies(Enemy **dst) {
     *dst = _enemies + start;
 
     int end = start;
-    for (; end < _enemies_count - 1 && _enemies[end].getX() != -1;)
+    for (; end < _global_count - 1 && _enemies[end].getX() != -1;)
     {
         end++;
     }

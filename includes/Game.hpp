@@ -15,7 +15,7 @@ private:
 protected:
     Player _player;
     Enemy *_enemies;
-    int _enemies_count;
+    int _global_count;
     long _t;
     const long _t_start;
     long _t_last;
