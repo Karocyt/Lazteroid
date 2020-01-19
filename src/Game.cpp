@@ -118,13 +118,18 @@ void Game::input(Enemy *enemies, int enemies_count) {
 void Game::display(Enemy * enemies, int enemies_count) {
     Projectile * laser;
 
+    // dark magic for emoji to correctly draw
+    static int oldhp = 0;
     erase();
+    if (_player.getHp() != oldhp)
+        clear();
+    oldhp = _player.getHp();
+
     std::string score = "Score: " + std::to_string(_player.getScore());
-    std::string life = "Life: " + std::to_string(_player.getHp());
-    mvaddstr(Y_MAX + 1, 0, score.c_str());
-    mvaddstr(Y_MAX + 1, X_MAX / 2, life.c_str());
-    //for (int heart = _player.getHp(); heart < 50; heart -= 50)
-    //    mvaddstr(Y_MAX + heart / 50, X_MAX / 2, "❤️");
+    mvaddstr(Y_MAX + 2, 0, score.c_str());
+    mvaddstr(Y_MAX + 1, 0, "Life:");
+    for (int heart = _player.getHp() / ENEMY_CROSS_DAMAGE; heart > 0; heart--)
+        mvaddstr(Y_MAX + 1, 3 + heart * 4, "❤️");
 
     for (int line1 = 0; line1 < Y_MAX + 4; line1++) {
         if (line1 == Y_MAX)
