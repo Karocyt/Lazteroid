@@ -31,7 +31,7 @@ Game::Game(int enemies_count) :
 
 void Game::_initEnemies(int nb) {
     int i = 0;
-    for (;i < _enemies_count && _enemies[i].getY() != -1;)
+    for (;i < _enemies_count && (!_enemies[i].getHp() || _enemies[i].getY() != -1);)
         i++;
     if (i == _enemies_count)
         return;
@@ -54,7 +54,7 @@ void Game::init() {
     nodelay(stdscr, TRUE);
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_YELLOW);
-    _initEnemies(3);
+    _initEnemies(ENEMY_COUNT);
 }
 
 void Game::run(bool display_enabled)
@@ -75,14 +75,14 @@ void Game::run(bool display_enabled)
         for (int i = 0; i < enemies_count; i++)
         {
             std::cerr << "Updating enemy " << i + 1 << ": ";
-            _player.takeDamage(_enemies[i].update(t));
+            _player.takeDamage(enemies[i].update(t));
         }
         _player.update(t);
 
         input();
         if (display_enabled)
             display(enemies, enemies_count);
-        if (enemies_count < 3)
+        if (enemies_count < ENEMY_COUNT)
             _initEnemies(1);
     }
     endwin();

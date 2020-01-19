@@ -9,11 +9,10 @@
 # define PLAYER_OFFSET 2
 # define PLAYER_LIFE 150
 # define ENEMY_LIFE 150
-# define ENEMY_LIFE_RATIO_PER_MINUTE 3 
 # define DAMAGE 60
-# define ENEMY_CROSS_DAMAGE 3
+# define ENEMY_CROSS_DAMAGE 3 // not working
 # define ENEMY_SPEED 10
-# define ENEMY_COUNT 3
+# define ENEMY_COUNT 5
 
 
 
