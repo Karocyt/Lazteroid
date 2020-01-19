@@ -1,6 +1,6 @@
 #include "Enemy.hpp"
 
-Enemy::Enemy() : Unit(-1, -1, ENEMY_SPEED) {
+Enemy::Enemy() : Unit(-1, -1, ENEMY_SPEED, ENEMY_LIFE) {
     setDirX(-1);
 }
 

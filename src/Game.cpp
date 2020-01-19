@@ -69,8 +69,8 @@ void Game::run(bool display_enabled)
             _player.takeDamage(enemies[i].update(t));
             if (enemies[i].getState())
                 alive++;
-            //if (_player.getY() == _enemies[i].getY() && _enemies[i].getX() <= 1) // COLLISION
-            //    _player.takeDamage(_player.getHp());
+            if (enemies[i].getState() && (int)_player.getY() == (int)enemies[i].getY() && (int)enemies[i].getX() <= 1) // COLLISION
+               _player.takeDamage(_player.getHp());
         }
         _player.update(t);
 
@@ -119,11 +119,11 @@ void Game::display(Enemy * enemies, int enemies_count) {
     Projectile * laser;
 
     erase();
-
     std::string score = "Score:\n" + std::to_string(_player.getScore());
-    std::string lives = "Lives: " + std::to_string(_player.getHp());
     mvaddstr(Y_MAX + 1, 0, score.c_str());
-    mvaddstr(Y_MAX + 1, X_MAX / 2, lives.c_str());
+    //mvaddstr(Y_MAX + 1, X_MAX / 2, "Lives:");
+    //for (int heart = _player.getHp(); heart < 50; heart -= 50)
+    //    mvaddstr(Y_MAX + heart / 50, X_MAX / 2, "❤️");
 
     for (int line1 = 0; line1 < Y_MAX + 6; line1++) {
         if (line1 == Y_MAX)

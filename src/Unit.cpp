@@ -21,12 +21,10 @@ Unit::Unit(const Unit & f)
 
 Unit const & Unit::operator=(Unit const & e) {
     Point::operator=(e);
-    setCooldown(e.getCooldown());
     setSpeed(e.getSpeed());
     setChar(e.getChar());
     setHp(e.getHp());
     setDamage(e.getDamage());
-    setBaseCooldown(e.getBaseCooldown());
     _dir_x = 0;
     _dir_y = 0;
     return *this;
@@ -130,26 +128,6 @@ void Unit::moveTo(int x_target, int y_target) {
         _dir_y = -1;
     else
         _dir_y = 0;
-}
-
-void Unit::setCooldown(int c)
-{
-    _cooldown = c;
-}
-
-int Unit::getCooldown() const
-{
-    return _cooldown;
-}
-
-void Unit::setBaseCooldown(int c)
-{
-    _base_cooldown = c;
-}
-
-unsigned Unit::getBaseCooldown() const
-{
-    return _base_cooldown;
 }
 
 void Unit::setDirX(int x)

@@ -2,7 +2,7 @@
 
 int Player::_x_init = PLAYER_OFFSET;
 
-Player::Player() : Unit(_x_init, Y_MAX / 2, PLAYER_LIFE), _score(0), _laser(NULL) {
+Player::Player() : Unit(_x_init, Y_MAX / 2, 0, PLAYER_LIFE), _score(0), _laser(NULL) {
     std::cerr << "PLAYER " << getHp() << std::endl; 
 }
 
@@ -50,22 +50,18 @@ void Player::shoot(Unit *enemies, int count)
 {
     int best_x = X_MAX;
     Unit * target = NULL;
-    //if (getCooldown() <= 0)
-    //{
-        setCooldown(getBaseCooldown());
-        for (int i = 0; i < count; i++)
+    for (int i = 0; i < count; i++)
+    {
+        if (enemies[i].getState() && enemies[i].getY() == getY() && enemies[i].getX() < best_x && enemies[i].getX() > getX())
         {
-            if (enemies[i].getState() && enemies[i].getY() == getY() && enemies[i].getX() < best_x && enemies[i].getX() > getX())
-            {
-                best_x = enemies[i].getX();
-                target = &enemies[i];
-            }
+            best_x = enemies[i].getX();
+            target = &enemies[i];
         }
-        if (!target)
-            _laser = new Projectile(getX(), getY(), X_MAX - getX(), NULL, *this);
-        else
-            _laser = new Projectile(getX(), getY(), target->getX() - getX(), target, *this);
-    //}
+    }
+    if (!target)
+        _laser = new Projectile(getX(), getY(), X_MAX - getX(), NULL, *this);
+    else
+        _laser = new Projectile(getX(), getY(), target->getX() - getX(), target, *this);
 }
 
 void Player::resetLaser() {
