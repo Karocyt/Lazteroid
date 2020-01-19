@@ -119,16 +119,17 @@ void Game::display(Enemy * enemies, int enemies_count) {
     Projectile * laser;
 
     erase();
-    std::string score = "Score:\n" + std::to_string(_player.getScore());
+    std::string score = "Score: " + std::to_string(_player.getScore());
+    std::string life = "Life: " + std::to_string(_player.getHp());
     mvaddstr(Y_MAX + 1, 0, score.c_str());
-    //mvaddstr(Y_MAX + 1, X_MAX / 2, "Lives:");
+    mvaddstr(Y_MAX + 1, X_MAX / 2, life.c_str());
     //for (int heart = _player.getHp(); heart < 50; heart -= 50)
     //    mvaddstr(Y_MAX + heart / 50, X_MAX / 2, "❤️");
 
-    for (int line1 = 0; line1 < Y_MAX + 6; line1++) {
+    for (int line1 = 0; line1 < Y_MAX + 4; line1++) {
         if (line1 == Y_MAX)
             mvaddch(line1, X_MAX, ACS_RTEE);
-        else if (line1 == Y_MAX + 5)
+        else if (line1 == Y_MAX + 3)
             mvaddch(line1, X_MAX, ACS_LRCORNER);
         else
             mvaddch(line1, X_MAX, ACS_VLINE);
@@ -136,7 +137,7 @@ void Game::display(Enemy * enemies, int enemies_count) {
     
     for (int line2 = 0; line2 < X_MAX; line2++) {
         mvaddch(Y_MAX, line2, ACS_HLINE);
-        mvaddch(Y_MAX + 5, line2, ACS_HLINE);
+        mvaddch(Y_MAX + 3, line2, ACS_HLINE);
     }
 
     mvaddch(_player.getY(), _player.getX(), '>' | COLOR_PAIR(0));
