@@ -90,20 +90,20 @@ int Unit::takeDamage(int d)
 }
 
 
-void Unit::updatePos(double seconds)                         // to change if t is not milliseconds
+void Unit::updatePos(double seconds)
 {
-    std::cerr << "Moving to " << (int)(getX() + _dir_x * getSpeed() * seconds)
-    << " " << (int)(getY() + _dir_y * getSpeed() * seconds) << std::endl;
-
     setX(getX() + _dir_x * getSpeed() * seconds);
-    setY(getY() + _dir_y * getSpeed() * seconds);                                   // check if moving in the right direction
+    setY(getY() + _dir_y * getSpeed() * seconds);
+    std::cerr << seconds << " Moving to " << getX()
+    << " " << getY() << std::endl;
 }
 
 
 bool Unit::getState()
 {   if (getX() <= -2)
         return false;
-    if (getHp() > 0)
+
+    if (getHp() > 0 || getX() == -1)
         return true;
     return false;                                    
 }

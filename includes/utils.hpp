@@ -12,7 +12,7 @@
 # define ENEMY_LIFE_RATIO_PER_MINUTE 3 
 # define DAMAGE 60
 # define ENEMY_CROSS_DAMAGE 3
-# define ENEMY_SPEED 15
+# define ENEMY_SPEED 10
 
 
 
