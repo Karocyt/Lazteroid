@@ -140,15 +140,15 @@ void Game::display(Enemy * enemies, int enemies_count) {
         mvaddch(Y_MAX + 3, line2, ACS_HLINE);
     }
 
-    mvaddch(_player.getY(), _player.getX(), '>' | COLOR_PAIR(0));
+    mvaddch(_player.getY(), _player.getX(), '>' | COLOR_PAIR(1));
 
     for (int i = 0; i < enemies_count; i++) {
         if (enemies[i].getState()) {
             // std::cerr << "Enemy " << i + 1 << "/" << enemies_count << "[" << enemies[i].getHp() << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
             if (enemies[i].getHp() <= 50)
-                mvaddch(enemies[i].getY(), enemies[i].getX(), 'O' | COLOR_PAIR(2));
+                mvaddch(enemies[i].getY(), enemies[i].getX(), 'O' | COLOR_PAIR(3));
             else
-                mvaddch(enemies[i].getY(), enemies[i].getX(), 'O' | COLOR_PAIR(1));
+                mvaddch(enemies[i].getY(), enemies[i].getX(), 'O' | COLOR_PAIR(2));
         }
     }
 
