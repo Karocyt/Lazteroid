@@ -40,6 +40,7 @@ void Game::_initEnemies(int nb) {
     {
         if (_enemies[i].getHp())
         {
+            _enemies[i].setSpeed(_enemies[i].getSpeed() + i);
             _enemies[i].setX(X_MAX);
             _enemies[i].setY((i * 13 + std::rand())  % Y_MAX);
             _enemies[i].setDirX(-1);
@@ -120,9 +121,10 @@ void Game::display(Enemy * enemies, int enemies_count) {
 
     // dark magic for emoji to correctly draw
     static int oldhp = 0;
-    erase();
     if (_player.getHp() != oldhp)
         clear();
+    else
+        erase();
     oldhp = _player.getHp();
 
     std::string score = "Score: " + std::to_string(_player.getScore());

@@ -13,7 +13,6 @@ private:
     int _damage;
 
 protected:
-    void setSpeed(float const y);
     void setHp(int const y);
     void setChar(char c);
     void setDamage(int d);
@@ -38,6 +37,8 @@ public:
     int getDirY() const;
     void setDirY(int dir);
     void setY(const float dir);
+    void setSpeed(float const y);
+
     virtual void resetLaser();
 };
 

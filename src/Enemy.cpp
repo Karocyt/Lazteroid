@@ -1,6 +1,9 @@
 #include "Enemy.hpp"
 
 Enemy::Enemy() : Unit(-1, -1, ENEMY_SPEED, ENEMY_LIFE) {
+    static int current_speed = ENEMY_SPEED;
+    setSpeed(current_speed);
+    current_speed += 0.5;
     setDirX(-1);
 }
 

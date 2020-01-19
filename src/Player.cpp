@@ -3,7 +3,6 @@
 int Player::_x_init = PLAYER_OFFSET;
 
 Player::Player() : Unit(_x_init, Y_MAX / 2, 0, PLAYER_LIFE), _score(0), _laser(NULL) {
-    std::cerr << "PLAYER " << getHp() << std::endl; 
 }
 
 Player::~Player() {
