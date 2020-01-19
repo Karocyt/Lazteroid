@@ -31,7 +31,7 @@ Game::Game(int enemies_count) :
 
 void Game::_initEnemies(int nb) {
     int i = 0;
-    for (;i < _enemies_count && (_enemies[i].getHp() <= 0 || _enemies[i].getY() < -2);)
+    for (;i < _enemies_count && _enemies[i].getY() != -1;)
         i++;
     if (i == _enemies_count)
         return;
@@ -74,14 +74,16 @@ void Game::run(bool display_enabled)
             _player.shoot(enemies, enemies_count);
         for (int i = 0; i < enemies_count; i++)
         {
-            std::cerr << "Updating enemy " << i + 1 << std::endl;
+            std::cerr << "Updating enemy " << i + 1 << ": ";
             _player.takeDamage(_enemies[i].update(t));
         }
         _player.update(t);
 
         input();
         if (display_enabled)
-            display();
+            display(enemies, enemies_count);
+        if (enemies_count < 3)
+            _initEnemies(1);
     }
     endwin();
 }
@@ -97,11 +99,12 @@ int Game::getEnemies(Enemy **dst) {
     if (!_enemies[start].getState())
         return 0;
 
-    *dst = &_enemies[start];
+    *dst = _enemies + start;
 
     int end = start;
-    for (; end < _enemies_count && _enemies[end].getX() != -1; end++)
+    for (; end < _enemies_count - 1 && _enemies[end].getX() != -1;)
     {
+        end++;
     }
     return (end - start);
 }
@@ -123,11 +126,8 @@ void Game::input(void) {
     }
 }
 
-void Game::display(void) {
+void Game::display(Enemy * enemies, int enemies_count) {
     erase();
-    Enemy *enemies;
-    int enemies_count = getEnemies(&enemies);
-    //std::cerr << "[P] X:" << _player.getX() << " Y:" << _player.getY() << std::endl;
     mvaddch(_player.getY(), _player.getX(), 'P');
     for (int i = 0; i < enemies_count; i++)
         if (enemies[i].getState())

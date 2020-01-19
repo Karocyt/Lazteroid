@@ -13,6 +13,7 @@
 # define DAMAGE 60
 # define ENEMY_CROSS_DAMAGE 3
 # define ENEMY_SPEED 10
+# define ENEMY_COUNT 3
 
 
 
