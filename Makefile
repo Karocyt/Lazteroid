@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/08/14 11:09:21 by kevazoul     #+#   ##    ##    #+#        #
-#    Updated: 2020/01/18 23:53:56 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2020/01/19 13:29:10 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -16,7 +16,7 @@
 TIME = /usr/bin/time -l # time -v on Ubuntu, time -l on OSX
 
 CC = clang++
-CPPFLAGS = -std=c++98 -Wall -Wextra -Werror -g -fsanitize=address
+CPPFLAGS = -std=c++98 -Wall -Wextra -Werror -g
 
 SRCDIR = src/
 OBJDIR = obj/

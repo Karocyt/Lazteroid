@@ -2,6 +2,7 @@
 # define GAME_H
 # include "Player.hpp"
 # include "Enemy.hpp"
+# include "locale.h"
 # include <ncurses.h>
 # include <unistd.h>
 # include <cstdlib> // rand
@@ -31,7 +32,7 @@ public:
     int getEnemies(Enemy * *dst);
     
     void run(bool display_enabled = true); // will be his own namespace
-    void input(void);
+    void input(Enemy *enemies, int enemies_count);
     void display(Enemy * enemies, int enemies_count);
 };
 

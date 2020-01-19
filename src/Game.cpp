@@ -51,12 +51,17 @@ void Game::_initEnemies(int nb) {
 }
 
 void Game::init() {
+    setlocale(LC_ALL, "");
     initscr();
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
+    attron(A_BOLD);
     start_color();
+    init_pair(0, COLOR_BLUE , 0);
     init_pair(1, COLOR_WHITE, COLOR_YELLOW);
+    init_pair(2, COLOR_WHITE, COLOR_RED);
+    init_pair(3, COLOR_RED, COLOR_BLACK);
     _initEnemies(ENEMY_COUNT);
 }
 
@@ -74,8 +79,6 @@ void Game::run(bool display_enabled)
         double t = (clock() - _t_last) / (double)CLOCKS_PER_SEC;
         _t_last = clock();
         std::cerr << t << std::endl;
-        if (!_player.getLaser())
-            _player.shoot(enemies, enemies_count);
         alive = 0;
         for (int i = 0; i < enemies_count; i++)
         {
@@ -86,7 +89,7 @@ void Game::run(bool display_enabled)
         }
         _player.update(t);
 
-        input();
+        input(enemies, enemies_count);
         if (display_enabled)
             display(enemies, enemies_count);
         if (alive < ENEMY_COUNT)
@@ -116,7 +119,7 @@ int Game::getEnemies(Enemy **dst) {
     return (end - start);
 }
 
-void Game::input(void) {
+void Game::input(Enemy *enemies, int enemies_count) {
     switch(getch()) {
     case 65:    // key up
         _player.setY(_player.getY() - 1);
@@ -129,22 +132,28 @@ void Game::input(void) {
     case 68:    // key left
         break;
     case ' ':   // key space
+        if (!_player.getLaser())
+        _player.shoot(enemies, enemies_count);
         break;
     }
 }
 
 void Game::display(Enemy * enemies, int enemies_count) {
     erase();
-    mvaddch(_player.getY(), _player.getX(), 'P');
+    //static std::string moons[] = {"🌑", "🌘", "🌗", "🌖", "🌕", "🌔", "🌓", "🌒"};
+    //static int loop = 0;
+    mvaddch(_player.getY(), _player.getX(), '>');
     for (int i = 0; i < enemies_count; i++)
         if (enemies[i].getState())
         {
             std::cerr << "Enemy " << i + 1 << "/" << enemies_count << "[" << enemies[i].getHp() << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
-            mvaddch(enemies[i].getY(), enemies[i].getX(), ' ' | COLOR_PAIR(1));
+            if (enemies[i].getHp() <= 50)
+                mvaddch(enemies[i].getY(), enemies[i].getX(), 'E' | COLOR_PAIR(2));
+            else
+                mvaddch(enemies[i].getY(), enemies[i].getX(), 'E' | COLOR_PAIR(1));
         }
 
     Projectile * laser;
     if ((laser = _player.getLaser()))
-        mvaddch(laser->getY(), laser->getX(), '-');
+        mvaddch(laser->getY(), laser->getX(), '=' | COLOR_PAIR(3));
 }
-
