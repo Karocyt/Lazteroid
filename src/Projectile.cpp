@@ -19,6 +19,8 @@ Projectile::Projectile(const Projectile & f) : _owner(f.getOwner())
 Projectile const & Projectile::operator=(Projectile const & e) {
     Unit::operator=(e);
     setLen(e.getLen());
+    setTarget(e.getTarget());
+    setOwner(e.getOwner());
     return *this;
 }
 
@@ -30,7 +32,7 @@ void Projectile::setLen(int len) {
 	_len = len;
 }
 
-Unit * Projectile::getTarget() {
+Unit * Projectile::getTarget() const {
     return _target;
 }
 
