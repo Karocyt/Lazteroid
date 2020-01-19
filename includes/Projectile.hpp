@@ -25,7 +25,7 @@ public:
     void setTarget(Unit * target);
     void deleteThis();
     Unit & getOwner() const;
-    void update(double t);
+    int update(double t);
 };
 
 #endif

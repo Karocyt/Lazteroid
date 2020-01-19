@@ -2,7 +2,8 @@
 
 int Player::_x_init = PLAYER_OFFSET;
 
-Player::Player() : Unit(_x_init, Y_MAX / 2), _score(0), _laser(NULL) {
+Player::Player() : Unit(_x_init, Y_MAX / 2, PLAYER_LIFE), _score(0), _laser(NULL) {
+
 }
 
 Player::~Player() {
@@ -82,5 +83,5 @@ void Player::setCooldown(int c) {
 void Player::update(double t) {
     updatePos(t);
     if (getLaser())
-        getLaser()->update(t);
+        setScore(getScore() + getLaser()->update(t));
 }

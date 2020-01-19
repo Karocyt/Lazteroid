@@ -2,7 +2,7 @@
 
 Game::~Game() {
     delete [] _enemies;
-    std::cout << "Game ended" << std::endl;
+    std::cout << "Game ended: " << _player.getScore() << "pts" << std::endl;
 }
 
 Game::Game(const Game & f) : _t_start(f._t_start)
@@ -46,22 +46,25 @@ void Game::_initEnemies(int nb) {
     }
 }
 
-void Game::run(bool display_enabled)
-{
+void Game::init() {
     initscr();
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_YELLOW);
+    _initEnemies(2);
+}
 
+void Game::run(bool display_enabled)
+{
+    this->init();
     (void)display_enabled;
 
     Enemy *enemies;
     int enemies_count;
-    start_color();
-    init_pair(1, COLOR_WHITE, COLOR_YELLOW);
 
-    _initEnemies(2);
-    while ((enemies_count = getEnemies(&enemies)))
+    while ((enemies_count = getEnemies(&enemies)) && _player.getState())
     {
         double t = (clock() - _t_last) / (double)CLOCKS_PER_SEC;
         _t_last = clock();
@@ -69,9 +72,7 @@ void Game::run(bool display_enabled)
         if (!_player.getLaser())
             _player.shoot(enemies, enemies_count);
         for (int i = 0; i < enemies_count; i++)
-        {
-            _enemies[i].updatePos(t);
-        }
+            _player.takeDamage(_enemies[i].update(t));
         _player.update(t);
 
         input();

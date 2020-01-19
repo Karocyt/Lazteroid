@@ -1,15 +1,12 @@
 #include "Unit.hpp"
 
-Unit::Unit(int x, int y, unsigned speed) :
+Unit::Unit(int x, int y, unsigned speed, int start_hp) :
     Point(x, y),
     _speed(speed),
-    _hp(150),
+    _hp(start_hp),
     _display_char('o'),
     _dir_x(0),
-    _dir_y(0),
-    _base_cooldown(1000),
-    _damage(75),
-    _cooldown(_base_cooldown)
+    _dir_y(0)
 {
 
 }
@@ -85,9 +82,11 @@ int Unit::getDamage() const
 }
 
 
-void Unit::takeDamage(int d)
+int Unit::takeDamage(int d)
 {
+    int old_hp = getHp();
     setHp(getHp() - d);
+    return old_hp - getHp();
 }
 
 
@@ -102,7 +101,8 @@ void Unit::updatePos(double seconds)                         // to change if t i
 
 
 bool Unit::getState()
-{
+{   if (getX() <= -2)
+        return false;
     if (getHp() > 0)
         return true;
     return false;                                    
@@ -171,7 +171,7 @@ void Unit::setDirY(int x)
 
 void Unit::setY(const float x)
 {
-    Point::setY(max(min(x, Y_MAX), 1));
+    Point::setY(max(min(x, Y_MAX - 1), 0));
 }
 
 int Unit::getDirY() const

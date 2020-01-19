@@ -13,6 +13,8 @@ public:
     ~Enemy();
     Enemy(Enemy const & g);
     Enemy const & operator=(Enemy const & g);
+
+    int update(double t);
 };
 
 #endif

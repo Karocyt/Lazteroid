@@ -51,21 +51,23 @@ void Projectile::deleteThis() {
     delete this;
 }
 
-void Projectile::update(double t) {
+int Projectile::update(double t) {
     updatePos(t);
     if (!getTarget())
     {
         moveTo(X_MAX, getY());
         if (getX() > X_MAX - 1)
             deleteThis();
-        return;
+        return 0;
     }
 
     moveTo(getTarget()->getX(), getTarget()->getY());
 
     if (getX() >= getTarget()->getX())
     {
-        getTarget()->takeDamage(DAMAGE);
+        int ret = getTarget()->takeDamage(DAMAGE);
         deleteThis();
+        return ret;
     }
+    return (0);
 }

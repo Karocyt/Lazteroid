@@ -9,6 +9,7 @@
 class Game {
 
 private:
+    void init();
 
 protected:
     Player _player;
