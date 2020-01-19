@@ -6,6 +6,7 @@
 # include <ncurses.h>
 # include <unistd.h>
 # include <cstdlib> // rand
+# include <sstream> // to_string
 
 class Game {
 

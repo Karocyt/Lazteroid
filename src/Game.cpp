@@ -135,8 +135,9 @@ void Game::display(Enemy * enemies, int enemies_count) {
     printw(bg);
     attroff(COLOR_PAIR(4));
 
-    std::string score = "Score: " + std::to_string(_player.getScore());
-    mvaddstr(Y_MAX + 2, 0, score.c_str());
+    std::ostringstream score;
+    score << "Score: " << _player.getScore();
+    mvaddstr(Y_MAX + 2, 0, score.str().c_str());
     mvaddstr(Y_MAX + 1, 0, "Life:");
     for (int heart = _player.getHp() / ENEMY_CROSS_DAMAGE; heart > 0; heart--)
         mvaddstr(Y_MAX + 1, 3 + heart * 4, "❤️");
