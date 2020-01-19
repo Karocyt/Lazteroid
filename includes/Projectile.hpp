@@ -8,6 +8,7 @@ private:
 	int _len;
     Unit * _target;
     Unit & _owner;
+    Projectile();
 
 protected:
     void setLen(int len);
