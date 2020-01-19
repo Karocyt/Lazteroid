@@ -7,7 +7,6 @@
 class Player: public Unit {
 
 protected:
-    int _cooldown;
     int _score;
     static int _x_init;
     Projectile *_laser;

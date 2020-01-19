@@ -17,6 +17,7 @@ Player::Player(const Player & f)
 Player const & Player::operator=(Player const & e) {
     Unit::operator=(e);
     setScore(e.getScore());
+    // Cannot clone Projectile for obvious reason
     return *this;
 }
 
@@ -66,15 +67,6 @@ void Player::shoot(Unit *enemies, int count)
 void Player::resetLaser() {
     _laser = NULL;
 }
-
-int Player::getCooldown() {
-    return max(_cooldown, 0);
-}
-
-void Player::setCooldown(int c) {
-    _cooldown = c;
-}
-
 
 void Player::update(double t) {
     updatePos(t);

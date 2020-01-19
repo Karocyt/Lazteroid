@@ -21,7 +21,7 @@ public:
     Projectile(Projectile const & g);
     Projectile const & operator=(Projectile const & g);
     int getLen() const;
-    Unit * getTarget();
+    Unit * getTarget() const;
     void setTarget(Unit * target);
     void deleteThis();
     Unit & getOwner() const;

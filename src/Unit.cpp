@@ -25,8 +25,8 @@ Unit const & Unit::operator=(Unit const & e) {
     setChar(e.getChar());
     setHp(e.getHp());
     setDamage(e.getDamage());
-    _dir_x = 0;
-    _dir_y = 0;
+    setDirX(e.getDirX());
+    setDirY(e.getDirY());
     return *this;
 }
 
