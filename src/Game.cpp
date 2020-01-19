@@ -31,7 +31,7 @@ Game::Game(int enemies_count) :
 
 void Game::_initEnemies(int nb) {
     int i = 0;
-    for (;i < _global_count && (!_enemies[i].getHp() || _enemies[i].getY() != -1);)
+    while (i < _global_count && (!_enemies[i].getHp() || _enemies[i].getY() != -1))
         i++;
     if (i == _global_count)
         return;
@@ -68,7 +68,6 @@ void Game::init() {
 void Game::run(bool display_enabled)
 {
     this->init();
-    (void)display_enabled;
 
     Enemy *enemies;
     int enemies_count;
@@ -78,7 +77,6 @@ void Game::run(bool display_enabled)
     {
         double t = (clock() - _t_last) / (double)CLOCKS_PER_SEC;
         _t_last = clock();
-        std::cerr << t << std::endl;
         alive = 0;
         for (int i = 0; i < enemies_count; i++)
         {
@@ -103,35 +101,28 @@ int Game::getEnemies(Enemy **dst) {
 
     if (!_enemies)
         return 0;
-    for (;start < _global_count && !_enemies[start].getState();)
+    while (start < _global_count && !_enemies[start].getState())
         start++;
-
     if (!_enemies[start].getState())
         return 0;
 
     *dst = _enemies + start;
 
     int end = start;
-    for (; end < _global_count - 1 && _enemies[end].getX() != -1;)
-    {
+    while (end < _global_count - 1 && _enemies[end].getX() != -1)
         end++;
-    }
     return (end - start);
 }
 
 void Game::input(Enemy *enemies, int enemies_count) {
     switch(getch()) {
-    case 65:    // key up
+    case K_UP:
         _player.setY(_player.getY() - 1);
         break;
-    case 66:    // key down
+    case K_DOWN:
         _player.setY(_player.getY() + 1);
         break;
-    case 67:    // key right
-        break;
-    case 68:    // key left
-        break;
-    case ' ':   // key space
+    case K_SPACE:
         if (!_player.getLaser())
         _player.shoot(enemies, enemies_count);
         break;
@@ -139,21 +130,22 @@ void Game::input(Enemy *enemies, int enemies_count) {
 }
 
 void Game::display(Enemy * enemies, int enemies_count) {
+    Projectile * laser;
+
     erase();
-    //static std::string moons[] = {"🌑", "🌘", "🌗", "🌖", "🌕", "🌔", "🌓", "🌒"};
-    //static int loop = 0;
-    mvaddch(_player.getY(), _player.getX(), '>');
-    for (int i = 0; i < enemies_count; i++)
-        if (enemies[i].getState())
-        {
+
+    mvaddch(_player.getY(), _player.getX(), '>' | COLOR_PAIR(0));
+
+    for (int i = 0; i < enemies_count; i++) {
+        if (enemies[i].getState()) {
             std::cerr << "Enemy " << i + 1 << "/" << enemies_count << "[" << enemies[i].getHp() << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
             if (enemies[i].getHp() <= 50)
                 mvaddch(enemies[i].getY(), enemies[i].getX(), 'E' | COLOR_PAIR(2));
             else
                 mvaddch(enemies[i].getY(), enemies[i].getX(), 'E' | COLOR_PAIR(1));
         }
+    }
 
-    Projectile * laser;
     if ((laser = _player.getLaser()))
         mvaddch(laser->getY(), laser->getX(), '=' | COLOR_PAIR(3));
 }

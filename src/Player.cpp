@@ -7,6 +7,7 @@ Player::Player() : Unit(_x_init, Y_MAX / 2, PLAYER_LIFE), _score(0), _laser(NULL
 }
 
 Player::~Player() {
+    delete getLaser();
 }
 
 Player::Player(const Player & f)

@@ -2,6 +2,10 @@
 # define UTILS_H
 # include <iostream>
 
+# define K_UP 65
+# define K_DOWN 66
+# define K_SPACE ' '
+
 # define X_MAX 95
 # define Y_MAX 30
 # define PROJECTILE_SPEED X_MAX * 5

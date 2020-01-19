@@ -24,7 +24,7 @@ protected:
 
 public:
 
-    Unit(int x = -1, int y = -1, unsigned speed = 1.0, int start_hp = 150);
+    Unit(int x = -1, int y = -1, unsigned speed = 1.0, int start_hp = 100);
     ~Unit();
     Unit(Unit const & g);
     Unit const & operator=(Unit const & g);
