@@ -70,8 +70,10 @@ void Game::run(bool display_enabled)
             _player.takeDamage(enemies[i].update(t));
             if (enemies[i].getState())
                 alive++;
-            if (enemies[i].getState() && (int)_player.getY() == (int)enemies[i].getY() && (int)enemies[i].getX() <= 1) // COLLISION
-               _player.takeDamage(_player.getHp());
+            if (enemies[i].getState() && (int)_player.getY() == (int)enemies[i].getY() && (int)enemies[i].getX() <= 1) {
+                enemies[i].takeDamage(enemies[i].getHp());
+               _player.takeDamage(ENEMY_CROSS_DAMAGE * 2);
+            }
         }
         _player.update(t);
 
@@ -119,6 +121,8 @@ void Game::input(Enemy *enemies, int enemies_count) {
 void Game::display(Enemy * enemies, int enemies_count) {
     Projectile * laser;
 
+    static const char bg[] = BACKGROUND;
+    //refresh();
     // dark magic for emoji to correctly draw
     static int oldhp = 0;
     if (_player.getHp() != oldhp)
@@ -126,6 +130,10 @@ void Game::display(Enemy * enemies, int enemies_count) {
     else
         erase();
     oldhp = _player.getHp();
+
+    attron(COLOR_PAIR(4));
+    printw(bg);
+    attroff(COLOR_PAIR(4));
 
     std::string score = "Score: " + std::to_string(_player.getScore());
     mvaddstr(Y_MAX + 2, 0, score.c_str());

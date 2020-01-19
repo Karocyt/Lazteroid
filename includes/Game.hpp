@@ -21,7 +21,7 @@ protected:
 
 public:
 
-    Game(int enemies_count = 100);
+    Game(int enemies_count = 200);
     ~Game();
     Game(Game const & g);
     Game const & operator=(Game const & g);
