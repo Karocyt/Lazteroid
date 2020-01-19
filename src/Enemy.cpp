@@ -21,11 +21,11 @@ int Enemy::update(double t) {
     int old_x = getX();
     if ((int)getX() != -1)
     {
-        std::cerr << "X in Enemy: " << getX() << std::endl;
+        // std::cerr << "X in Enemy: " << getX() << std::endl;
         updatePos(t);
     }
     else
-        std::cerr << " DEAD" << std::endl;
+        // std::cerr << " DEAD" << std::endl;
     if (getState() && getX() < 0 && getX() < old_x)
     {
         takeDamage(ENEMY_LIFE);

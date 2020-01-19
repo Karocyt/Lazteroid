@@ -94,13 +94,12 @@ void Unit::updatePos(double seconds)
 {
     setX(getX() + _dir_x * getSpeed() * seconds);
     setY(getY() + _dir_y * getSpeed() * seconds);
-    std::cerr << seconds << " Moving to " << getX()
-    << " " << getY() << std::endl;
+    // std::cerr << seconds << " Moving to " << getX() << " " << getY() << std::endl;
 }
 
 
-bool Unit::getState()
-{   if (getX() <= -2)
+bool Unit::getState() {
+    if (getX() <= -2)
         return false;
 
     if (getHp() > 0 || getX() == -1)

@@ -9,9 +9,6 @@
 
 class Game {
 
-private:
-    void init();
-
 protected:
     Player _player;
     Enemy *_enemies;

@@ -25,7 +25,7 @@ Game::Game(int enemies_count) :
     _t_start(clock()),
     _t_last(0)
 {
-    std::cerr << "Game started with " << _global_count << " enemies" << std::endl;
+    // std::cerr << "Game started with " << _global_count << " enemies" << std::endl;
     _enemies = new Enemy[enemies_count];
 }
 
@@ -44,30 +44,15 @@ void Game::_initEnemies(int nb) {
             _enemies[i].setY((i * 13 + std::rand())  % Y_MAX);
             _enemies[i].setDirX(-1);
             _enemies[i].setDirY(0);
-            std::cerr << "Enemy " << i + 1 << std::endl;
+            // std::cerr << "Enemy " << i + 1 << std::endl;
             count++;
         }
     }
 }
 
-void Game::init() {
-    setlocale(LC_ALL, "");
-    initscr();
-    noecho();
-    curs_set(0);
-    nodelay(stdscr, TRUE);
-    attron(A_BOLD);
-    start_color();
-    init_pair(0, COLOR_BLUE , 0);
-    init_pair(1, COLOR_WHITE, COLOR_YELLOW);
-    init_pair(2, COLOR_WHITE, COLOR_RED);
-    init_pair(3, COLOR_RED, COLOR_BLACK);
-    _initEnemies(ONSCREEN_COUNT);
-}
-
 void Game::run(bool display_enabled)
 {
-    this->init();
+    _initEnemies(ONSCREEN_COUNT);
 
     Enemy *enemies;
     int enemies_count;
@@ -80,10 +65,12 @@ void Game::run(bool display_enabled)
         alive = 0;
         for (int i = 0; i < enemies_count; i++)
         {
-            std::cerr << "Updating enemy " << i + 1 << ": ";
+            // std::cerr << "Updating enemy " << i + 1 << " pos: " << _enemies[i].getY() << " " << _enemies[i].getX() << std::endl;
             _player.takeDamage(enemies[i].update(t));
             if (enemies[i].getState())
                 alive++;
+            //if (_player.getY() == _enemies[i].getY() && _enemies[i].getX() <= 1) // COLLISION
+            //    _player.takeDamage(_player.getHp());
         }
         _player.update(t);
 
@@ -93,7 +80,6 @@ void Game::run(bool display_enabled)
         if (alive < ONSCREEN_COUNT)
             _initEnemies(1);
     }
-    endwin();
 }
 
 int Game::getEnemies(Enemy **dst) {
@@ -134,15 +120,34 @@ void Game::display(Enemy * enemies, int enemies_count) {
 
     erase();
 
+    std::string score = "Score:\n" + std::to_string(_player.getScore());
+    std::string lives = "Lives: " + std::to_string(_player.getHp());
+    mvaddstr(Y_MAX + 1, 0, score.c_str());
+    mvaddstr(Y_MAX + 1, X_MAX / 2, lives.c_str());
+
+    for (int line1 = 0; line1 < Y_MAX + 6; line1++) {
+        if (line1 == Y_MAX)
+            mvaddch(line1, X_MAX, ACS_RTEE);
+        else if (line1 == Y_MAX + 5)
+            mvaddch(line1, X_MAX, ACS_LRCORNER);
+        else
+            mvaddch(line1, X_MAX, ACS_VLINE);
+    }
+    
+    for (int line2 = 0; line2 < X_MAX; line2++) {
+        mvaddch(Y_MAX, line2, ACS_HLINE);
+        mvaddch(Y_MAX + 5, line2, ACS_HLINE);
+    }
+
     mvaddch(_player.getY(), _player.getX(), '>' | COLOR_PAIR(0));
 
     for (int i = 0; i < enemies_count; i++) {
         if (enemies[i].getState()) {
-            std::cerr << "Enemy " << i + 1 << "/" << enemies_count << "[" << enemies[i].getHp() << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
+            // std::cerr << "Enemy " << i + 1 << "/" << enemies_count << "[" << enemies[i].getHp() << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
             if (enemies[i].getHp() <= 50)
-                mvaddch(enemies[i].getY(), enemies[i].getX(), 'E' | COLOR_PAIR(2));
+                mvaddch(enemies[i].getY(), enemies[i].getX(), 'O' | COLOR_PAIR(2));
             else
-                mvaddch(enemies[i].getY(), enemies[i].getX(), 'E' | COLOR_PAIR(1));
+                mvaddch(enemies[i].getY(), enemies[i].getX(), 'O' | COLOR_PAIR(1));
         }
     }
 
