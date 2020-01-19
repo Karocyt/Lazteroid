@@ -20,7 +20,7 @@ CPPFLAGS = -std=c++98 -Wall -Wextra -Werror -g -fsanitize=address
 
 SRCDIR = src/
 OBJDIR = obj/
-H_FILES_NAMES = Constants.hpp \
+H_FILES_NAMES = utils.hpp \
 				Point.hpp \
 				Unit.hpp \
 				Enemy.hpp \
@@ -30,7 +30,8 @@ H_FILES_NAMES = Constants.hpp \
 INCLUDES_DIR = includes/
 INCLUDES = $(addprefix -I, $(INCLUDES_DIR))
 H_FILES = $(addprefix $(INCLUDES_DIR), $(H_FILES_NAMES))
-SRC_NAME =	Point.cpp \
+SRC_NAME =	utils.cpp \
+			Point.cpp \
 			Unit.cpp \
 			Enemy.cpp \
 			Projectile.cpp \

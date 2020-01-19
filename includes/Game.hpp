@@ -2,12 +2,14 @@
 # define GAME_H
 # include "Player.hpp"
 # include "Enemy.hpp"
-# include <time.h> // sleep
 # include <ncurses.h>
+# include <unistd.h>
+# include <cstdlib> // rand
 
 class Game {
 
 private:
+    void init();
 
 protected:
     Player _player;
@@ -30,7 +32,7 @@ public:
     
     void run(bool display_enabled = true); // will be his own namespace
     void input(void);
-    void display(void);
+    void display(Enemy * enemies, int enemies_count);
 };
 
 #endif

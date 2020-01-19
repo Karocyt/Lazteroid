@@ -24,7 +24,7 @@ protected:
 
 public:
 
-    Unit(int x = -1, int y = -1, unsigned speed = 1.0);
+    Unit(int x = -1, int y = -1, unsigned speed = 1.0, int start_hp = 150);
     ~Unit();
     Unit(Unit const & g);
     Unit const & operator=(Unit const & g);
@@ -37,12 +37,14 @@ public:
     char getChar() const;
     void moveTo(Point const & p);
     void moveTo(int x, int y);
-    void takeDamage(int d);
+    int takeDamage(int d);
     void updatePos(double time);
     int getDirX() const;
     void setDirX(int dir);
     int getDirY() const;
     void setDirY(int dir);
+    void setY(const float dir);
+    virtual void resetLaser();
 };
 
 #endif

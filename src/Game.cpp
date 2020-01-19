@@ -1,10 +1,8 @@
 #include "Game.hpp"
-# include <unistd.h>
-# include <ctime>
 
 Game::~Game() {
     delete [] _enemies;
-    std::cout << "Game ended" << std::endl;
+    std::cout << "Game ended: " << _player.getScore() << "pts" << std::endl;
 }
 
 Game::Game(const Game & f) : _t_start(f._t_start)
@@ -24,7 +22,7 @@ Game const & Game::operator=(Game const & e) {
 Game::Game(int enemies_count) :
     _enemies_count(enemies_count),
     _t(0),
-    _t_start(std::clock()),
+    _t_start(clock()),
     _t_last(0)
 {
     std::cerr << "Game started with " << _enemies_count << " enemies" << std::endl;
@@ -33,51 +31,66 @@ Game::Game(int enemies_count) :
 
 void Game::_initEnemies(int nb) {
     int i = 0;
-    for (;i < _enemies_count && !_enemies[i].getState();)
+    for (;i < _enemies_count && (!_enemies[i].getHp() || _enemies[i].getY() != -1);)
         i++;
     if (i == _enemies_count)
         return;
 
-    for (int count = 0; i < _enemies_count && count < nb; count++)
+    for (int count = 0; i < _enemies_count && count < nb; i++)
     {
-        std::cout << "h";
-        _enemies[i].setX(X_MAX);
-        _enemies[i].setY(std::rand() % Y_MAX);
-        _enemies[i].setDirX(-1);
-        _enemies[i].setDirY(0);
+        if (_enemies[i].getHp())
+        {
+            _enemies[i].setX(X_MAX);
+            _enemies[i].setY((i * 13 + std::rand())  % Y_MAX);
+            _enemies[i].setDirX(-1);
+            _enemies[i].setDirY(0);
+            std::cerr << "Enemy " << i + 1 << std::endl;
+            count++;
+        }
     }
 }
 
-void Game::run(bool display_enabled)
-{
+void Game::init() {
     initscr();
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
-    
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_YELLOW);
+    _initEnemies(ENEMY_COUNT);
+}
+
+void Game::run(bool display_enabled)
+{
+    this->init();
     (void)display_enabled;
 
     Enemy *enemies;
     int enemies_count;
-    start_color();
-    init_pair(1, COLOR_WHITE, COLOR_YELLOW);
+    int alive = 0;
 
-    _initEnemies(2);
-    while ((enemies_count = getEnemies(&enemies)))
+    while ((enemies_count = getEnemies(&enemies)) && _player.getState())
     {
-        double t = (std::clock() - _t_last) / (double)CLOCKS_PER_SEC;
-        _t_last = std::clock();
+        double t = (clock() - _t_last) / (double)CLOCKS_PER_SEC;
+        _t_last = clock();
         std::cerr << t << std::endl;
-        _player.shoot(enemies, enemies_count);
+        if (!_player.getLaser())
+            _player.shoot(enemies, enemies_count);
+        alive = 0;
         for (int i = 0; i < enemies_count; i++)
         {
-            _enemies[i].updatePos(t);
+            std::cerr << "Updating enemy " << i + 1 << ": ";
+            _player.takeDamage(enemies[i].update(t));
+            if (enemies[i].getState())
+                alive++;
         }
-        _player.updatePos(t);
+        _player.update(t);
 
         input();
         if (display_enabled)
-            display();
+            display(enemies, enemies_count);
+        if (alive < ENEMY_COUNT)
+            _initEnemies(1);
     }
     endwin();
 }
@@ -93,13 +106,13 @@ int Game::getEnemies(Enemy **dst) {
     if (!_enemies[start].getState())
         return 0;
 
-    *dst = &_enemies[start];
+    *dst = _enemies + start;
 
     int end = start;
-    for (; end < _enemies_count && _enemies[end].getX() != -1; end++)
+    for (; end < _enemies_count - 1 && _enemies[end].getX() != -1;)
     {
+        end++;
     }
-
     return (end - start);
 }
 
@@ -120,29 +133,18 @@ void Game::input(void) {
     }
 }
 
-void Game::display(void) {
-    Projectile *laser = NULL;
-    Enemy *enemies;
-
-    int len = 0;
-
+void Game::display(Enemy * enemies, int enemies_count) {
     erase();
-    int enemies_count = getEnemies(&enemies);
-    std::cerr << "[P] X:" << _player.getX() << " Y:" << _player.getY() << std::endl;
     mvaddch(_player.getY(), _player.getX(), 'P');
     for (int i = 0; i < enemies_count; i++)
-    {
-        std::cerr << "[" << i << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
-        mvaddch(enemies[i].getY(), enemies[i].getX(), ' ' | COLOR_PAIR(1));
-    }
-    if ((laser = _player.getLaser()))
-    {
-        std::cerr << "NIQUE TOI BIEN---------------------" << std::endl;
-        len = laser->getLen();
-        for (int j = 0; j < len - 1; j++) {
-            mvaddch(_player.getY(), _player.getX() + j + 1, '-' | COLOR_PAIR(1));
-
+        if (enemies[i].getState())
+        {
+            std::cerr << "Enemy " << i + 1 << "/" << enemies_count << "[" << enemies[i].getHp() << "] X:" << enemies[i].getX() << " Y:" << enemies[i].getY() << std::endl;
+            mvaddch(enemies[i].getY(), enemies[i].getX(), ' ' | COLOR_PAIR(1));
         }
-    }
+
+    Projectile * laser;
+    if ((laser = _player.getLaser()))
+        mvaddch(laser->getY(), laser->getX(), '-');
 }
 

@@ -1,15 +1,12 @@
 #include "Unit.hpp"
 
-Unit::Unit(int x, int y, unsigned speed) :
+Unit::Unit(int x, int y, unsigned speed, int start_hp) :
     Point(x, y),
     _speed(speed),
-    _hp(150),
+    _hp(start_hp),
     _display_char('o'),
     _dir_x(0),
-    _dir_y(0),
-    _base_cooldown(1000),
-    _damage(75),
-    _cooldown(_base_cooldown)
+    _dir_y(0)
 {
 
 }
@@ -85,25 +82,28 @@ int Unit::getDamage() const
 }
 
 
-void Unit::takeDamage(int d)
+int Unit::takeDamage(int d)
 {
+    int old_hp = getHp();
     setHp(getHp() - d);
+    return old_hp - getHp();
 }
 
 
-void Unit::updatePos(double seconds)                         // to change if t is not milliseconds
+void Unit::updatePos(double seconds)
 {
-    std::cerr << "Moving to " << (int)(getX() + _dir_x * getSpeed() * seconds)
-    << " " << (int)(getY() + _dir_y * getSpeed() * seconds) << std::endl;
-
     setX(getX() + _dir_x * getSpeed() * seconds);
-    setY(getY() + _dir_y * getSpeed() * seconds);                                   // check if moving in the right direction
+    setY(getY() + _dir_y * getSpeed() * seconds);
+    std::cerr << seconds << " Moving to " << getX()
+    << " " << getY() << std::endl;
 }
 
 
 bool Unit::getState()
-{
-    if (getHp() > 0)
+{   if (getX() <= -2)
+        return false;
+
+    if (getHp() > 0 || getX() == -1)
         return true;
     return false;                                    
 }
@@ -168,7 +168,17 @@ void Unit::setDirY(int x)
     _dir_y = x;
 }
 
+
+void Unit::setY(const float x)
+{
+    Point::setY(max(min(x, Y_MAX - 1), 0));
+}
+
 int Unit::getDirY() const
 {
     return _dir_y;
+}
+
+void Unit::resetLaser() {
+
 }
